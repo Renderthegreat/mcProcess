@@ -1,0 +1,10 @@
+name: mcP
+description: "Links with mcProcess.js"
+author: renderlabs
+main: com.mcProcess.Main
+version: 1.0
+
+commands:
+  mycommand:
+    description: gets the mcP version
+    usage: /version
