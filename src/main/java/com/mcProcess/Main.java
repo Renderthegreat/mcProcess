@@ -18,7 +18,12 @@ public class Main extends JavaPlugin {
 
 	public void onEnable() {
 		getLogger().info("mcP is Starting...");
-
+		getLogger().info("""
+				        .-.   .-. .---. .----.
+				       |  `.'  |/  ___}| {}  }
+				       | |\\ /| |\\     }| .--'
+				       `-' ` `-' `---' `-'
+				""");
 		try {
 			ProcessBuilder processBuilder = new ProcessBuilder("node", "../javascript/index.js");
 			Process process = processBuilder.start();
@@ -29,6 +34,7 @@ public class Main extends JavaPlugin {
 				getLogger().warning("Node.js script execution failed with exit code: " + exitCode);
 			}
 		} catch (IOException | InterruptedException e) {
+			getLogger().severe("Error executing Node.js script: " + e.getMessage());
 			e.printStackTrace();
 		}
 		FileConfiguration config = loadConfig();
