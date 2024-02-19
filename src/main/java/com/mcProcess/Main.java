@@ -21,7 +21,7 @@ public class Main extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        getLogger().info("mcP has been enabled.");
+        getLogger().info("mcP is Starting...");
         
         
         FileConfiguration config = loadConfig();
@@ -37,7 +37,7 @@ public class Main extends JavaPlugin {
     }
 
     private FileConfiguration loadConfig() {
-        Path configFile = Paths.get(getDataFolder().toString(), "pipe.yml");
+        Path configFile = Paths.get(getDataFolder().toString(), "mcP/pipe.yml");
         if (!Files.exists(configFile)) {
             saveResource("pipe.yml", false);
         }
