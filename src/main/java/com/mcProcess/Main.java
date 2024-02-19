@@ -12,12 +12,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main extends JavaPlugin {
-
+    
+    
     @Override
     public void onEnable() {
-        getLogger().info("MyPlugin has been enabled.");
-
-        // Load and read from pipe.yml
+        try{
+            Process process = Runtime.getRuntime().exec("node ../javascript/index.js");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        getLogger().info("mcP has been enabled.");
+        
+        
         FileConfiguration config = loadConfig();
         if (config.contains("id")) {
             String id = config.getString("id");
@@ -27,13 +33,12 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().info("MyPlugin has been disabled.");
+        getLogger().info("mcP has been disabled.");
     }
 
     private FileConfiguration loadConfig() {
         Path configFile = Paths.get(getDataFolder().toString(), "pipe.yml");
         if (!Files.exists(configFile)) {
-            // Create pipe.yml with default values if it doesn't exist
             saveResource("pipe.yml", false);
         }
         return YamlConfiguration.loadConfiguration(configFile.toFile());
