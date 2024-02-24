@@ -53,12 +53,24 @@ public class Main extends JavaPlugin {
 	}
 
 	private FileConfiguration loadConfig() {
+    // Create directory if it doesn't exist
+    File dataFolder = getDataFolder();
+    if (!dataFolder.exists()) {
+        if (!dataFolder.mkdirs()) {
+            getLogger().severe("Failed to create plugin data folder!");
+            return null;
+        }
+    }
+    
+
     InputStream inputStream = getResource("pipe.yml");
     if (inputStream == null) {
         getLogger().severe("pipe.yml not found in JAR resources!");
         return null;
     }
-    File configFile = new File(getDataFolder(), "pipe.yml");
+
+
+    File configFile = new File(dataFolder, "pipe.yml");
     if (!configFile.exists()) {
         try {
             Files.copy(inputStream, configFile.toPath());
@@ -69,7 +81,6 @@ public class Main extends JavaPlugin {
         }
     }
 
-    
     return YamlConfiguration.loadConfiguration(configFile);
 }
 
