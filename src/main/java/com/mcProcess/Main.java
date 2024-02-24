@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.File;
 
 public class Main extends JavaPlugin {
 
@@ -19,6 +21,7 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		getLogger().info("mcP is Starting...");
 		getLogger().info("""
+               MCProcess is a plugin that allows you to create a process that runs in the background using JS!
 				        .-.   .-. .---. .----.
 				       |  `.'  |/  ___}| {}  }
 				       | |\\ /| |\\     }| .--'
@@ -50,12 +53,25 @@ public class Main extends JavaPlugin {
 	}
 
 	private FileConfiguration loadConfig() {
-		Path configFile = Paths.get(getDataFolder().toString(), "mcP/pipe.yml");
-		if (!Files.exists(configFile)) {
-			saveResource("pipe.yml", false);
-		}
-		return YamlConfiguration.loadConfiguration(configFile.toFile());
-	}
+    InputStream inputStream = getResource("pipe.yml");
+    if (inputStream == null) {
+        getLogger().severe("pipe.yml not found in JAR resources!");
+        return null;
+    }
+    File configFile = new File(getDataFolder(), "pipe.yml");
+    if (!configFile.exists()) {
+        try {
+            Files.copy(inputStream, configFile.toPath());
+        } catch (IOException e) {
+            getLogger().severe("Failed to copy pipe.yml from resources to plugin data folder!");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    
+    return YamlConfiguration.loadConfiguration(configFile);
+}
 
 	private void readFromPipe(String pipePath) {
 		new Thread(() -> {
